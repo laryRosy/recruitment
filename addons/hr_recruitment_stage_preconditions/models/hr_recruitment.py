@@ -28,3 +28,12 @@ class Applicant(models.Model):
             # stage change should be done
             fulfilled = True
         return fulfilled
+
+    def _phone_call_preconditions(self):
+        for applicant in self:
+            if applicant.categ_ids:
+                return True
+            else:
+                raise ValidationError(
+                    _("Field %s must have value") %
+                    (applicant.fields_get('categ_ids')['categ_ids']['string']))
